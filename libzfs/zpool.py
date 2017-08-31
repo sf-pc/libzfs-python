@@ -18,7 +18,7 @@ zprop_type_t = bindings['zprop_type_t']
 zpool_status_t = bindings['zpool_status_t']
 zprop_source_t = bindings['zprop_source_t']
 zio_type_t = bindings['zio_type_t']
-ZPOOL_MAXNAMELEN = bindings['ZPOOL_MAXNAMELEN']
+MAXNAMELEN = bindings['MAXNAMELEN']
 
 
 class PoolScanStats(dict):
@@ -249,8 +249,8 @@ class ZPool(object):
                 else:
                     value = bindings.ffi.string(valuestr[0])
             else:
-                holder = bindings.ffi.new('char [%s]' % ZPOOL_MAXNAMELEN)
-                if bindings.libzfs.zpool_get_prop_literal(self.hdl, int(prop), holder, ZPOOL_MAXNAMELEN,
+                holder = bindings.ffi.new('char [%s]' % MAXNAMELEN)
+                if bindings.libzfs.zpool_get_prop(self.hdl, int(prop), holder, MAXNAMELEN,
                                                  sourceholder, boolean_t(True)) != 0:
                     value = None
                 else:

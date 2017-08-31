@@ -9,7 +9,7 @@ zfs_type_t = bindings['zfs_type_t']
 zprop_type_t = bindings['zprop_type_t']
 zfs_prop_t = bindings['zfs_prop_t']
 zprop_source_t = bindings['zprop_source_t']
-ZFS_MAXNAMELEN = bindings['ZFS_MAXNAMELEN']
+MAXNAMELEN = bindings['MAXNAMELEN']
 
 
 def _get_iterfunc(funcname, extra=False):
@@ -108,19 +108,19 @@ class ZDataset(object):
                 continue
 
             sourceholder = ffi.new('zprop_source_t *')
-            statbuf = ffi.new('char [%s]' % ZFS_MAXNAMELEN)
+            statbuf = ffi.new('char [%s]' % MAXNAMELEN)
             ptype = zprop_type_t(libzfs.zfs_prop_get_type(int(prop)))
             value = None
 
             if ptype == zprop_type_t.PROP_TYPE_NUMBER:
                 holder = ffi.new("uint64_t *")
-                res = libzfs.zfs_prop_get_numeric(self.hdl, int(prop), holder, sourceholder, statbuf, ZFS_MAXNAMELEN)
+                res = libzfs.zfs_prop_get_numeric(self.hdl, int(prop), holder, sourceholder, statbuf, MAXNAMELEN)
                 if res == 0:
                     value = int(holder[0])
             else:
-                holder = ffi.new("char [%s]" % ZFS_MAXNAMELEN)
-                res = libzfs.zfs_prop_get(self.hdl, int(prop), holder, ZFS_MAXNAMELEN, sourceholder, statbuf,
-                                          ZFS_MAXNAMELEN, boolean_t(True))
+                holder = ffi.new("char [%s]" % MAXNAMELEN)
+                res = libzfs.zfs_prop_get(self.hdl, int(prop), holder, MAXNAMELEN, sourceholder, statbuf,
+                                          MAXNAMELEN, boolean_t(True))
                 if res == 0:
                     value = ffi.string(holder)
 
